@@ -1,0 +1,1106 @@
+@import "tailwindcss";
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .print-brand {
+    margin: 0 0 1.5mm;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight: 400;
+    line-height: 1.2;
+    text-align: center;
+    color: #000;
+    letter-spacing: 0.02em;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  /* Temperature paper checklist — landscape week grid only */
+  body:has(.temp-print-sheet) * {
+    visibility: hidden;
+  }
+
+  body:has(.temp-print-sheet) .temp-print-sheet,
+  body:has(.temp-print-sheet) .temp-print-sheet * {
+    visibility: visible;
+  }
+
+  .temp-print-sheet {
+    display: block !important;
+    position: absolute;
+    inset: 0;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8mm;
+    background: white;
+  }
+
+  .temp-print-inner {
+    color: #111;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .temp-print-title {
+    margin: 0 0 6px;
+    font-size: 16pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    text-align: center;
+  }
+
+  .temp-print-inner > .print-brand {
+    margin-bottom: 2mm;
+  }
+
+  .temp-print-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 9pt;
+  }
+
+  .temp-print-cats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 8px;
+    border: 1px solid #111;
+    padding: 6px;
+  }
+
+  .temp-print-cats div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 8pt;
+  }
+
+  .temp-print-cats strong {
+    font-size: 8pt;
+  }
+
+  .temp-print-approval-bar {
+    display: flex;
+    height: 28px;
+    margin: 6px 0 4px;
+    border: 1.5px solid #111;
+    overflow: hidden;
+  }
+
+  .temp-print-approval-bar .filled {
+    width: 42%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #cfcfcf;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .temp-print-approval-bar .filled.full {
+    width: 100%;
+    background: #d1fae5;
+  }
+
+  .temp-print-approval-bar .empty {
+    flex: 1;
+    background: #fff;
+  }
+
+  .temp-print-approval-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 8pt;
+  }
+
+  .temp-print-section {
+    margin: 0 0 4px;
+    font-size: 10pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .temp-print-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 7pt;
+  }
+
+  .temp-print-table th,
+  .temp-print-table td {
+    border: 1px solid #111;
+    padding: 2px 1px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .temp-print-table th {
+    font-weight: 700;
+    text-transform: uppercase;
+    background: #f3f3f3;
+  }
+
+  .temp-print-table th.slot {
+    font-size: 5.5pt;
+    font-weight: 600;
+  }
+
+  .temp-print-table th span {
+    font-weight: 400;
+    text-transform: none;
+  }
+
+  .temp-print-table td.cab {
+    text-align: left;
+    padding-left: 4px;
+    font-weight: 700;
+    width: 90px;
+  }
+
+  .temp-print-table .cab-name {
+    display: block;
+    font-weight: 400;
+    font-size: 6pt;
+  }
+
+  .temp-print-table td.unsafe {
+    background: #ffe2e2 !important;
+    font-weight: 700;
+  }
+
+  /* Cleaning monthly PDF — wide area column, narrow day tick columns */
+  .cleaning-month-table {
+    font-size: 6.5pt;
+    table-layout: fixed;
+  }
+
+  .cleaning-month-table col.area-col,
+  .cleaning-month-table th.cab,
+  .cleaning-month-table td.cab {
+    width: 160px !important;
+    max-width: 160px;
+    text-align: left;
+    padding: 3px 5px !important;
+    white-space: normal;
+    word-break: normal;
+  }
+
+  .cleaning-month-table .cleaning-area-name {
+    display: block;
+    font-size: 7pt;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .cleaning-month-table th.slot,
+  .cleaning-month-table td:not(.cab) {
+    width: 18px;
+    max-width: 18px;
+    padding: 1px 0 !important;
+    font-size: 6pt;
+  }
+
+  .cleaning-month-table th.slot span {
+    font-size: 4.5pt;
+  }
+
+  .cleaning-month-table td {
+    padding: 1px 0;
+  }
+
+  .scratch-day-print-table th.cab,
+  .scratch-day-print-table td.cab {
+    width: 110px;
+    text-align: left;
+  }
+
+  .scratch-day-print-table th.slot {
+    font-size: 6pt;
+  }
+
+  /* Scratch-card day PDF — A4 portrait */
+  @page scratch-a4 {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html:has(.scratch-print-sheet),
+  body:has(.scratch-print-sheet) {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body:has(.scratch-print-sheet) * {
+    visibility: hidden !important;
+  }
+
+  body:has(.scratch-print-sheet) .scratch-print-sheet,
+  body:has(.scratch-print-sheet) .scratch-print-sheet * {
+    visibility: visible !important;
+  }
+
+  .scratch-print-sheet {
+    display: block !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    box-sizing: border-box !important;
+    width: 210mm !important;
+    max-height: 297mm !important;
+    margin: 0 !important;
+    padding: 10mm !important;
+    overflow: hidden !important;
+    background: white !important;
+    page: scratch-a4;
+    z-index: 99999 !important;
+  }
+
+  .scratch-print-inner {
+    box-sizing: border-box;
+    color: #111;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .scratch-print-header h1 {
+    margin: 0 0 2mm;
+    font-size: 14pt;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .scratch-print-header > p:not(.print-brand) {
+    margin: 0 0 3mm;
+    font-size: 9pt;
+    text-align: center;
+  }
+
+  .scratch-print-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2mm 4mm;
+    margin-bottom: 4mm;
+    padding: 2.5mm 3mm;
+    border: 1px solid #111;
+    font-size: 8pt;
+  }
+
+  .scratch-print-shift {
+    margin-bottom: 3.5mm;
+    page-break-inside: avoid;
+  }
+
+  .scratch-print-shift h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 2mm;
+    margin: 0 0 1.5mm;
+    font-size: 10pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 1px solid #111;
+    padding-bottom: 1mm;
+  }
+
+  .scratch-print-shift h2 span {
+    font-size: 8pt;
+    font-weight: 400;
+    text-transform: none;
+    color: #444;
+  }
+
+  .scratch-print-shift h2 em {
+    margin-left: auto;
+    font-style: normal;
+    font-size: 9pt;
+  }
+
+  .scratch-print-shift table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 8pt;
+  }
+
+  .scratch-print-shift th,
+  .scratch-print-shift td {
+    border: 1px solid #111;
+    padding: 1.5mm 1.5mm;
+    text-align: center;
+  }
+
+  .scratch-print-shift th {
+    background: #f3f3f3;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 7pt;
+  }
+
+  .scratch-print-shift th.card,
+  .scratch-print-shift td.card {
+    text-align: left;
+    width: 32%;
+  }
+
+  .scratch-print-footer {
+    margin-top: 3mm;
+    font-size: 8pt;
+  }
+
+  .temp-print-footer {
+    margin-top: 8px;
+    font-size: 8pt;
+  }
+
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  /* Forced to portrait via JS onPrint for problem reports; named page as fallback */
+  @page problem-a4 {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  /* Problem report — single A4 portrait page; fixed position avoids blank pages */
+  html:has(.problem-print-sheet),
+  body:has(.problem-print-sheet) {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 297mm !important;
+    max-height: 297mm !important;
+    overflow: hidden !important;
+  }
+
+  body:has(.problem-print-sheet) * {
+    visibility: hidden !important;
+  }
+
+  body:has(.problem-print-sheet) .problem-print-sheet,
+  body:has(.problem-print-sheet) .problem-print-sheet * {
+    visibility: visible !important;
+  }
+
+  .problem-print-sheet {
+    display: block !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+    box-sizing: border-box !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    max-height: 297mm !important;
+    margin: 0 !important;
+    padding: 7mm !important;
+    overflow: hidden !important;
+    background: white !important;
+    page: problem-a4;
+    z-index: 99999 !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-before: avoid !important;
+    break-after: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .problem-print-inner {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    max-height: 283mm;
+    overflow: hidden;
+    color: #111;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .problem-print-header {
+    flex: 0 0 auto;
+    margin-bottom: 3mm;
+  }
+
+  .problem-print-header h1 {
+    margin: 0;
+    font-size: 12pt;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.15;
+  }
+
+  .problem-print-sub {
+    margin: 1.5mm 0 0;
+    font-size: 7pt;
+    text-align: center;
+    color: #333;
+    line-height: 1.2;
+  }
+
+  .problem-print-grid {
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+    gap: 2.5mm;
+    min-height: 0;
+    height: 100%;
+    max-height: 100%;
+  }
+
+  .problem-box {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #111;
+    min-height: 0;
+    max-height: 100%;
+    overflow: hidden;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .problem-box-top {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 1.5mm 2mm 1mm;
+  }
+
+  .problem-box-day {
+    display: block;
+    font-size: 9pt;
+    font-weight: 700;
+    line-height: 1.05;
+  }
+
+  .problem-box-extra .problem-box-day {
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .problem-box-prompt {
+    display: block;
+    margin: 0.5mm 0 1mm;
+    font-size: 6pt;
+    color: #333;
+    line-height: 1.15;
+  }
+
+  .problem-box-notes {
+    flex: 1 1 auto;
+    min-height: 0;
+    border: 1px solid #bbb;
+    padding: 1mm 1.5mm;
+    font-size: 6.5pt;
+    line-height: 1.2;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .problem-box-notes p {
+    margin: 0 0 0.5mm;
+  }
+
+  .problem-box-checks {
+    flex: 0 0 auto;
+    display: flex;
+    gap: 3mm;
+    align-items: center;
+    padding: 1mm 2mm;
+    background: #e8e8e8;
+    border-top: 1px solid #999;
+    border-bottom: 1px solid #999;
+    font-size: 6.5pt;
+  }
+
+  .problem-box-checks-empty {
+    min-height: 4.5mm;
+  }
+
+  .problem-box-checks label {
+    display: inline-flex;
+    align-items: center;
+    gap: 1mm;
+  }
+
+  .problem-box-checks .tick {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.8mm;
+    height: 2.8mm;
+    border: 1px solid #111;
+    background: #fff;
+    font-size: 6pt;
+    line-height: 1;
+  }
+
+  .problem-box-checks .tick.on {
+    font-weight: 700;
+  }
+
+  .problem-box-sign {
+    flex: 0 0 auto;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 2mm;
+    padding: 1mm 2mm 0.5mm;
+    font-size: 6.5pt;
+  }
+
+  .problem-box-sign > div {
+    display: flex;
+    align-items: flex-end;
+    gap: 1mm;
+    min-width: 0;
+  }
+
+  .problem-box-sign span {
+    flex-shrink: 0;
+    font-weight: 700;
+  }
+
+  .problem-box-sign em {
+    flex: 1;
+    border-bottom: 1px solid #333;
+    font-style: normal;
+    min-height: 3mm;
+    padding: 0 0.5mm;
+    font-size: 6.5pt;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .problem-box-footer {
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0.5mm 2mm 1mm;
+    font-size: 5.5pt;
+    color: #222;
+    line-height: 1.15;
+  }
+
+  /* Day-end report — A4 portrait mirroring on-screen sections */
+  @page dayend-a4 {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html:has(.dayend-print-sheet),
+  body:has(.dayend-print-sheet) {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body:has(.dayend-print-sheet) * {
+    visibility: hidden !important;
+  }
+
+  body:has(.dayend-print-sheet) .dayend-print-sheet,
+  body:has(.dayend-print-sheet) .dayend-print-sheet * {
+    visibility: visible !important;
+  }
+
+  .dayend-print-sheet {
+    display: block !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    box-sizing: border-box !important;
+    width: 210mm !important;
+    max-height: 297mm !important;
+    margin: 0 !important;
+    padding: 10mm !important;
+    overflow: hidden !important;
+    background: white !important;
+    page: dayend-a4;
+    z-index: 99999 !important;
+  }
+
+  .dayend-print-inner {
+    box-sizing: border-box;
+    color: #000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .dayend-print-inner *,
+  .dayend-print-inner *::before,
+  .dayend-print-inner *::after {
+    color: #000 !important;
+    border-color: #000 !important;
+    box-shadow: none !important;
+  }
+
+  .dayend-print-header h1 {
+    margin: 0 0 1.5mm;
+    font-size: 14pt;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .dayend-print-header > p:not(.print-brand) {
+    margin: 0 0 2.5mm;
+    font-size: 9pt;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  .dayend-print-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 3mm;
+    margin-bottom: 3.5mm;
+    padding: 2mm 3mm;
+    border: 1px solid #000;
+    font-size: 8pt;
+    font-weight: 400;
+  }
+
+  .dayend-print-meta strong {
+    font-weight: 700;
+  }
+
+  .dayend-print-section {
+    margin-bottom: 3.5mm;
+    padding: 0 0 2.5mm;
+    border: none;
+    background: #fff !important;
+    page-break-inside: avoid;
+  }
+
+  .dayend-print-section h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 2mm;
+    margin: 0 0 2.5mm;
+    padding-bottom: 1.5mm;
+    border-bottom: 1px solid #000;
+    font-size: 10pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .dayend-print-section h2 em {
+    margin-left: auto;
+    font-style: normal;
+    font-size: 9pt;
+    font-weight: 700;
+    text-transform: none;
+  }
+
+  .dayend-print-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 3mm;
+    padding: 0.8mm 0;
+    font-size: 8pt;
+    font-weight: 400;
+  }
+
+  .dayend-print-row-strong {
+    margin-bottom: 1.5mm;
+    padding: 1.5mm 2mm;
+    border: 1px solid #000;
+    background: #fff !important;
+    font-size: 9pt;
+    font-weight: 400;
+  }
+
+  .dayend-print-row-strong strong {
+    font-weight: 700;
+  }
+
+  .dayend-print-subhead {
+    display: flex;
+    justify-content: space-between;
+    margin: 2mm 0 1mm;
+    padding-bottom: 0.8mm;
+    border-bottom: 1px solid #000;
+    font-size: 8pt;
+    font-weight: 700;
+  }
+
+  .dayend-print-payments {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2mm;
+    margin-bottom: 2mm;
+  }
+
+  .dayend-print-payments > div,
+  .dayend-print-calcs > div {
+    padding: 1.5mm 2mm;
+    border: 1px solid #000;
+    background: #fff !important;
+  }
+
+  .dayend-print-payments em,
+  .dayend-print-calcs em,
+  .dayend-print-cash-strip em {
+    display: block;
+    margin-bottom: 0.5mm;
+    font-style: normal;
+    font-size: 7pt;
+    font-weight: 700;
+    color: #000 !important;
+    text-transform: uppercase;
+  }
+
+  .dayend-print-payments strong,
+  .dayend-print-calcs strong,
+  .dayend-print-cash-strip strong {
+    font-size: 9pt;
+    font-weight: 700;
+  }
+
+  .dayend-print-calcs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2mm;
+    margin-top: 2mm;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: transparent !important;
+  }
+
+  .dayend-print-calcs > div.ok,
+  .dayend-print-calcs > div.short {
+    border: 1px solid #000;
+    background: #fff !important;
+  }
+
+  .dayend-print-section table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 8pt;
+    font-weight: 400;
+  }
+
+  .dayend-print-section th,
+  .dayend-print-section td {
+    border: 1px solid #000;
+    padding: 1.4mm 1.5mm;
+    text-align: center;
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .dayend-print-section th {
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .dayend-print-section td {
+    font-weight: 400;
+  }
+
+  .dayend-print-section th.svc,
+  .dayend-print-section td.svc {
+    text-align: left;
+    width: 34%;
+  }
+
+  .dayend-print-section td.svc small {
+    font-size: 7pt;
+    font-weight: 400;
+    color: #000 !important;
+  }
+
+  .dayend-print-cash-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 1.5mm;
+    margin-top: 2.5mm;
+    margin-bottom: 0;
+  }
+
+  .dayend-print-cash-strip > div {
+    flex: 1 1 28mm;
+    min-width: 24mm;
+    padding: 1.5mm 2mm;
+    border: 1px solid #000;
+    background: #fff !important;
+  }
+
+  .dayend-print-cash-strip > div.cf {
+    border: 1px solid #000;
+    background: #fff !important;
+  }
+
+  .dayend-print-cash-strip > span {
+    align-self: center;
+    font-size: 10pt;
+    font-weight: 700;
+    color: #000 !important;
+  }
+
+  .dayend-print-cash-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3mm;
+  }
+
+  /* Staff training — A4 portrait, up to 3 employees per page */
+  @page training-a4 {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  body:has(.training-print-sheet) .no-print {
+    display: none !important;
+  }
+
+  .training-print-sheet {
+    display: block !important;
+    position: static !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 210mm !important;
+    margin: 0 auto !important;
+    padding: 8mm !important;
+    overflow: visible !important;
+    background: white !important;
+    page: training-a4;
+  }
+
+  .training-print-inner {
+    box-sizing: border-box;
+    color: #000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+  }
+
+  .training-print-inner *,
+  .training-print-inner *::before,
+  .training-print-inner *::after {
+    color: #000 !important;
+    border-color: #000 !important;
+    box-shadow: none !important;
+  }
+
+  /* Break BEFORE each next page — avoids trailing blank page from break-after */
+  .training-print-page + .training-print-page {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  .training-print-page {
+    box-sizing: border-box;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  .training-print-page--last {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .training-print-page--continued {
+    padding-top: 12mm;
+  }
+
+  .training-print-page--full {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .training-print-header {
+    page-break-after: avoid;
+    break-after: avoid;
+    flex: 0 0 auto;
+    margin-bottom: 3mm;
+  }
+
+  .training-print-header h1 {
+    margin: 0 0 1.5mm;
+    font-size: 13pt;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .training-print-header > p:not(.print-brand) {
+    margin: 0 0 2mm;
+    font-size: 8.5pt;
+    text-align: center;
+  }
+
+  .training-print-header .print-brand {
+    margin-bottom: 1.5mm;
+    font-size: 8pt;
+  }
+
+  .training-print-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2mm 3mm;
+    margin-bottom: 0;
+    padding: 2mm 2.5mm;
+    border: 1px solid #000;
+    font-size: 8pt;
+  }
+
+  .training-print-meta-continued {
+    margin-bottom: 0;
+  }
+
+  .training-print-meta strong {
+    font-weight: 700;
+  }
+
+  .training-print-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5mm;
+  }
+
+  /* Spread 3 blocks evenly — keep under one page so no spill/blank page */
+  .training-print-page--full .training-print-list {
+    flex: 1 1 auto;
+    justify-content: space-between;
+    gap: 7mm;
+    min-height: 215mm;
+  }
+
+  .training-print-employee {
+    margin: 0;
+    padding-bottom: 3mm;
+    border-bottom: 1px solid #000;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .training-print-employee:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .training-print-employee h2 {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 2mm;
+    margin: 0 0 1.5mm;
+    padding-bottom: 1mm;
+    border-bottom: 1px solid #000;
+    font-size: 9.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .training-print-employee h2 span {
+    font-size: 8pt;
+    font-weight: 400;
+    text-transform: none;
+  }
+
+  .training-print-employee h2 em {
+    margin-left: auto;
+    font-style: normal;
+    font-size: 8.5pt;
+    font-weight: 700;
+    text-transform: none;
+  }
+
+  .training-print-employee table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 8pt;
+  }
+
+  .training-print-employee th,
+  .training-print-employee td {
+    border: 1px solid #000;
+    padding: 1.4mm 1.5mm;
+    text-align: center;
+    background: #fff !important;
+  }
+
+  .training-print-employee th {
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .training-print-employee th.topic,
+  .training-print-employee td.topic {
+    text-align: left;
+    width: 50%;
+  }
+
+  .training-print-signoff {
+    margin-top: 2.5mm;
+    font-size: 7.5pt;
+  }
+
+  .training-print-signoff > div {
+    display: flex;
+    align-items: flex-end;
+    gap: 2mm;
+    margin-bottom: 0;
+  }
+
+  .training-print-signoff > div > span {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .training-print-signoff em {
+    flex: 1;
+    border-bottom: 1px solid #000;
+    font-style: normal;
+    min-height: 5mm;
+  }
+
+  .training-print-signoff em.short {
+    flex: 0 0 24mm;
+  }
+}
+
+.print-only {
+  display: none;
+}
