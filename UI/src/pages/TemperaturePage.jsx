@@ -8,11 +8,9 @@ import { printPage } from '../lib/print'
 import { FormTopBar } from '../components/common/FormTopBar'
 import { EmployeeSaveActions } from '../components/common/EmployeeSaveActions'
 import { FormSelect } from '../components/common/FormSelect'
-import { Button } from '../components/ui/button'
+import { IssueCommentPanel } from '../components/common/IssueCommentPanel'
 import { Card, CardContent } from '../components/ui/card'
 import { Input } from '../components/ui/input'
-import { Label } from '../components/ui/label'
-import { Textarea } from '../components/ui/textarea'
 import { cn } from '../components/ui/utils'
 
 const CATEGORIES = [
@@ -210,13 +208,22 @@ export default function TemperaturePage() {
   const todayDayIndex = DEMO_DAY
   const todayMeta = WEEK_DAYS[todayDayIndex]
 
-  const hasUnsafe = useMemo(
+  const unsafeIssues = useMemo(
     () =>
-      cabinets.some(c =>
-        c.week.some(dayVals => dayVals.some(v => isUnsafe(c.type, v))),
+      cabinets.flatMap(c =>
+        c.week.flatMap((dayVals, di) =>
+          dayVals.flatMap((v, pi) =>
+            isUnsafe(c.type, v)
+              ? [
+                  `${c.name} was recorded at ${v}°C on ${WEEK_DAYS[di].name} ${PERIODS[pi].label.toLowerCase()}, outside its safe range.`,
+                ]
+              : [],
+          ),
+        ),
       ),
     [cabinets],
   )
+  const hasUnsafe = unsafeIssues.length > 0
 
   const filledCount = useMemo(() => {
     let filled = 0
@@ -377,30 +384,16 @@ export default function TemperaturePage() {
             />
           )}
 
-          {hasUnsafe ? (
-            <div className="flex gap-2.5 rounded-xl border border-red-200 bg-red-50 p-2.5 sm:gap-3 sm:p-4">
-              <AlertTriangle size={18} className="mt-0.5 shrink-0 text-red-600" />
-              <div className="min-w-0 flex-1 space-y-2 sm:space-y-3">
-                <div>
-                  <p className="text-sm font-semibold text-red-900 sm:text-base">Corrective action required</p>
-                  <p className="text-xs text-red-800 sm:text-sm">
-                    Freezer 02 was recorded at −14.2°C on Friday afternoon, outside its safe range.
-                  </p>
-                </div>
-                <div className="space-y-1.5 sm:space-y-2">
-                  <Label>Action taken</Label>
-                  <Textarea
-                    value={action}
-                    disabled={approved || role === 'administrator'}
-                    onChange={e => {
-                      setAction(e.target.value)
-                      if (editable || role === 'manager') setDirty(true)
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          ) : null}
+          <IssueCommentPanel
+            id="temperature-action"
+            issues={unsafeIssues}
+            value={action}
+            disabled={approved || role === 'administrator'}
+            onChange={value => {
+              setAction(value)
+              if (editable || role === 'manager') setDirty(true)
+            }}
+          />
         </div>
 
         <div className="print-only temp-print-sheet">
@@ -642,7 +635,7 @@ function TempCell({ label, value, type, editable, onChange, showLabel }) {
 function PrintSheet({ cabinets, storeName, approved, recordedBy, approvedBy, approvedAt }) {
   return (
     <div className="temp-print-inner">
-      <p className="print-brand">Northstar | Store Operations</p>
+      <p className="print-brand">Premier Woodgreen | Store Operations</p>
       <h1 className="temp-print-title">Daily chilled and frozen temperature checklist</h1>
       <div className="temp-print-meta">
         <span>

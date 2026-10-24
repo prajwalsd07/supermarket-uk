@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 import { useAuth } from '../auth/AuthContext'
 import { demoUsers } from '../data/seed'
 import { AppLogo } from '../components/common/AppLogo'
+import { LoginWaveBackground } from '../components/common/LoginWaveBackground'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Input } from '../components/ui/input'
@@ -50,11 +51,13 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="relative flex min-h-dvh flex-col overflow-x-hidden bg-linear-to-b from-blue-50 via-white to-blue-50">
+      <LoginWaveBackground />
+      <div className="relative z-10 flex flex-1 flex-col px-4 py-8">
+      <div className="m-auto w-full max-w-md">
         <div className="mb-8 text-center">
-          <AppLogo className="justify-center mb-4" />
-          <p className="text-gray-600">Welcome back. Sign in with your staff ID and PIN.</p>
+          <AppLogo variant="login" className="mb-4" />
+          <p className="mt-2 text-gray-600">Welcome back. Sign in with your staff ID and PIN.</p>
         </div>
 
         <Card className="border-0 shadow-xl">
@@ -164,6 +167,7 @@ export default function LoginPage() {
             </div>
           </CardContent>
         </Card>
+      </div>
       </div>
     </div>
   )

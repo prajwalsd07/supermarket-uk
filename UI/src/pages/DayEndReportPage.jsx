@@ -5,6 +5,7 @@ import { useAuth } from '../auth/AuthContext'
 import { DEMO_DATE, money } from '../data/seed'
 import { printPage } from '../lib/print'
 import { FormTopBar } from '../components/common/FormTopBar'
+import { IssueCommentPanel } from '../components/common/IssueCommentPanel'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Input } from '../components/ui/input'
@@ -45,6 +46,7 @@ export default function DayEndReportPage() {
   const [cashOut, setCashOut] = useState(DEFAULTS.cashOut)
   const [paid, setPaid] = useState(DEFAULTS.paid)
   const [services, setServices] = useState(DEFAULTS.services)
+  const [comment, setComment] = useState('')
 
   const editable = canEditOps && !approvals.dayend && !isReadOnly
   const partA = paid.reduce((s, x) => s + Number(x.amount || 0), 0)
@@ -55,6 +57,25 @@ export default function DayEndReportPage() {
   const cashOutTotal = cashOut.reduce((s, x) => s + Number(x.amount || 0), 0)
   const totalCash = cashBF + Number(cashHand) + cashInTotal
   const cashCF = totalCash - cashOutTotal
+
+  const issues = [
+    ...(difference < 0 ? [`Cash is short by ${money(Math.abs(difference))} against expected cash.`] : []),
+    ...Object.entries(services).flatMap(([name, [actual, till]]) => {
+      const diff = Number(till) - Number(actual)
+      return diff === 0
+        ? []
+        : [`${name} till reading is ${diff > 0 ? 'over' : 'under'} actual by ${money(Math.abs(diff))}.`]
+    }),
+  ]
+
+  const approveDayEnd = () => {
+    if (issues.length && !comment.trim()) {
+      toast.error('Add a comment explaining the differences before approving')
+      return false
+    }
+    setApprovals(x => ({ ...x, dayend: true }))
+    return true
+  }
 
   const numberField = (value, setter) =>
     editable ? (
@@ -93,7 +114,7 @@ export default function DayEndReportPage() {
         period={`${DEMO_DATE} · Final shift`}
         storeName={store.name}
         approved={approvals.dayend}
-        onApprove={role === 'manager' ? () => setApprovals(x => ({ ...x, dayend: true })) : undefined}
+        onApprove={role === 'manager' ? approveDayEnd : undefined}
         onPrint={printPortraitA4}
       >
         <div className="no-print grid gap-3 sm:gap-6 xl:grid-cols-2">
@@ -156,7 +177,7 @@ export default function DayEndReportPage() {
             </CardContent>
           </Card>
 
-          <Card className="gap-3 sm:gap-6">
+          <Card className="order-first gap-3 sm:gap-6 xl:order-none">
             <CardHeader className="px-3 pt-3 sm:px-6 sm:pt-6">
               <CardTitle className="text-base sm:text-lg">Service reconciliation</CardTitle>
               <CardDescription className="hidden sm:block">Till reading minus actual.</CardDescription>
@@ -285,6 +306,17 @@ export default function DayEndReportPage() {
           </CardContent>
         </Card>
 
+        <IssueCommentPanel
+          id="dayend-comment"
+          className="mt-3 sm:mt-6"
+          issues={issues}
+          title="Differences to explain"
+          label="Comment"
+          value={comment}
+          disabled={approvals.dayend || role === 'administrator'}
+          onChange={setComment}
+        />
+
         {(role === 'manager' || role === 'administrator') ? (
           <div className="print-only dayend-print-sheet">
             <PrintSheet data={printData} />
@@ -320,7 +352,7 @@ function PrintSheet({ data }) {
   return (
     <div className="dayend-print-inner">
       <header className="dayend-print-header">
-        <p className="print-brand">Northstar | Store Operations</p>
+        <p className="print-brand">Premier Woodgreen | Store Operations</p>
         <h1>Day-end report</h1>
         <p>
           {storeName} · {period} · Final shift

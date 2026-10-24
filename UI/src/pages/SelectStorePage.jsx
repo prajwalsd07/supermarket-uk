@@ -4,6 +4,7 @@ import { ArrowRight, Building2, Check } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '../auth/AuthContext'
 import { AppLogo } from '../components/common/AppLogo'
+import { LoginWaveBackground } from '../components/common/LoginWaveBackground'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { cn } from '../components/ui/utils'
@@ -30,10 +31,12 @@ export default function SelectStorePage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-blue-50 via-white to-slate-50 p-4">
-      <div className="w-full max-w-lg">
+    <div className="relative flex min-h-dvh flex-col overflow-x-hidden bg-linear-to-b from-blue-50 via-white to-blue-50">
+      <LoginWaveBackground />
+      <div className="relative z-10 flex flex-1 flex-col px-4 py-8">
+      <div className="m-auto w-full max-w-lg">
         <div className="mb-6 text-center sm:mb-8">
-          <AppLogo className="mb-4 justify-center" />
+          <AppLogo variant="login" className="mb-4" />
           <p className="text-sm text-gray-600 sm:text-base">
             Choose the store you want to work in for this session.
           </p>
@@ -87,6 +90,7 @@ export default function SelectStorePage() {
             </Button>
           </CardContent>
         </Card>
+      </div>
       </div>
     </div>
   )

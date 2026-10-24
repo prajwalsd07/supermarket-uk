@@ -7,6 +7,7 @@ import { getFlowStep } from '../data/employeeFlow'
 import { printPage } from '../lib/print'
 import { FormTopBar } from '../components/common/FormTopBar'
 import { EmployeeSaveActions } from '../components/common/EmployeeSaveActions'
+import { IssueCommentPanel } from '../components/common/IssueCommentPanel'
 import { Button } from '../components/ui/button'
 import { Card, CardContent } from '../components/ui/card'
 import { cn } from '../components/ui/utils'
@@ -65,6 +66,7 @@ export default function CleaningSchedulePage() {
   const [viewMode, setViewMode] = useState('day')
   const [selectedDay, setSelectedDay] = useState(DEMO_DAY)
   const [dirty, setDirty] = useState(false)
+  const [comment, setComment] = useState('')
 
   const cleanMeta = approvalMeta.cleaning
   const approved = approvals.cleaning
@@ -88,10 +90,16 @@ export default function CleaningSchedulePage() {
     return { done, missed, pending, total: tasks.length }
   }, [tasks, activeDayIndex])
 
-  const weekMissed = useMemo(
-    () => tasks.reduce((sum, task) => sum + task.done.filter(s => s === -1).length, 0),
+  const missedIssues = useMemo(
+    () =>
+      tasks.flatMap(task =>
+        task.done.flatMap((state, di) =>
+          state === -1 ? [`${task.name} (${task.area}) was missed on ${WEEK_DAYS[di].name}.`] : [],
+        ),
+      ),
     [tasks],
   )
+  const weekMissed = missedIssues.length
 
   const toggleDay = (taskIndex, dayIndex) => {
     if (!editable) return
@@ -135,8 +143,8 @@ export default function CleaningSchedulePage() {
   }
 
   const approveWeek = () => {
-    if (weekMissed > 0) {
-      toast.error('Resolve missed cleaning items before approving the week')
+    if (weekMissed > 0 && !comment.trim()) {
+      toast.error('Add a comment for missed cleaning items before approving the week')
       return false
     }
     approveCleaningWeek(user)
@@ -262,6 +270,19 @@ export default function CleaningSchedulePage() {
               </Button>
             </div>
           ) : null}
+
+          <IssueCommentPanel
+            id="cleaning-comment"
+            issues={missedIssues}
+            title="Missed cleaning items"
+            label="Comment"
+            value={comment}
+            disabled={approved || role === 'administrator'}
+            onChange={value => {
+              setComment(value)
+              if (editable || role === 'manager') setDirty(true)
+            }}
+          />
         </div>
 
         {role === 'manager' || role === 'administrator' ? (
@@ -506,7 +527,7 @@ function PrintSheet({ tasks, storeName, recordedBy }) {
 
   return (
     <div className="temp-print-inner">
-      <p className="print-brand">Northstar | Store Operations</p>
+      <p className="print-brand">Premier Woodgreen | Store Operations</p>
       <h1 className="temp-print-title">Monthly cleaning schedule</h1>
       <div className="temp-print-meta">
         <span>

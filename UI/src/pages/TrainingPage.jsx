@@ -443,7 +443,7 @@ function PrintSheet({ storeName, printedBy, employees }) {
           >
             {pageIndex === 0 ? (
               <header className="training-print-header">
-                <p className="print-brand">Northstar | Store Operations</p>
+                <p className="print-brand">Premier Woodgreen | Store Operations</p>
                 <h1>Staff training record</h1>
                 <p>
                   {storeName} · {DEMO_DATE}

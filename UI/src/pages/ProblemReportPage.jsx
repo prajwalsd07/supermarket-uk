@@ -596,7 +596,7 @@ function PrintSheet({ days, storeName, approved, recordedBy, approvedBy, approve
   return (
     <div className="problem-print-inner">
       <header className="problem-print-header">
-        <p className="print-brand">Northstar | Store Operations</p>
+        <p className="print-brand">Premier Woodgreen | Store Operations</p>
         <h1>Weekly problem report</h1>
         <p className="problem-print-sub">
           {storeName} · Week commencing 31 August 2026

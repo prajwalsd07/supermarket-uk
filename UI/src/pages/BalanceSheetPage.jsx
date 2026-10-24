@@ -656,7 +656,7 @@ function PrintSheet({ day, dayMeta, storeName, approved, recordedBy, approvedBy,
   return (
     <div className="scratch-print-inner">
       <header className="scratch-print-header">
-        <p className="print-brand">Northstar | Store Operations</p>
+        <p className="print-brand">Premier Woodgreen | Store Operations</p>
         <h1>Scratch-card sales</h1>
         <p>
           {storeName} · {dayMeta.long}
